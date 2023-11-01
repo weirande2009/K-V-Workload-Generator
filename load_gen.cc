@@ -24,7 +24,7 @@
 #define RD_THRESHOLD 0.75 // RD_THRESHOLD*insert_count number of inserts must be made before Range Deletes may take place (applicable when an empty database is being populated)
 #define PQ_THRESHOLD 0.1 // PQ_THRESHOLD*insert_count number of inserts must be made before Point Queries may take place (applicable when an empty database is being populated)
 #define RQ_THRESHOLD 0.1 // RQ_THRESHOLD*insert_count number of inserts must be made before Range Queries may take place (applicable when an empty database is being populated)
-#define STRING_KEY_ENABLED false
+#define STRING_KEY_ENABLED true
 #define FILENAME "workload.txt"
 
 // using namespace std;
@@ -830,6 +830,7 @@ int parse_arguments2(int argc, char *argv[]) {
   args::Group group4(parser, "Optional switches and parameters:", args::Group::Validators::DontCare);
   args::Group group5(parser, "Optional less frequent switches and parameters:", args::Group::Validators::DontCare);
 */
+  args::ValueFlag<std::string> directory_cmd(group1, "dir", "The directory of workload.txt", {"DIR", "directory"});
 
   args::ValueFlag<long> insert_cmd(group1, "I", "Number of inserts [def: 0]", {'I', "insert"});
   args::ValueFlag<long> update_cmd(group1, "U", "Number of updates [def: 0]", {'U', "update"});
@@ -898,6 +899,8 @@ int parse_arguments2(int argc, char *argv[]) {
       std::cerr << parser;
       return 1;
   }
+
+  file_path = directory_cmd ? args::get(directory_cmd) + "/" : "";
 
   insert_count = insert_cmd ? args::get(insert_cmd) : 0;
   update_count = update_cmd ? args::get(update_cmd) : 0;

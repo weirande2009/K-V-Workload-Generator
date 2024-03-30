@@ -843,7 +843,8 @@ int parse_arguments2(int argc, char *argv[]) {
   args::ValueFlag<float> maximum_unique_existing_point_lookup_proportion_cmd(group1, "UE", "Proportion of maximum unique exising point lookups [def: 0.5]", {"UE", "maximum_unique_existing_point_lookup_proportion"});
 
   args::ValueFlag<uint32_t> entry_size_cmd(group1, "E", "Entry size (in bytes) [def: 8]", {'E', "entry_size"});
-  args::ValueFlag<float> lambda_cmd(group1, "L", "lambda = key_size / (key_size + value_size) [def: 0.5]", {'L', "lambda"});
+  args::ValueFlag<uint32_t> key_size_cmd(group1, "K", "Key size (in bytes) [def: 8]", {'K', "key_size"});
+//   args::ValueFlag<float> lambda_cmd(group1, "L", "lambda = key_size / (key_size + value_size) [def: 0.5]", {'L', "lambda"});
 
   args::Flag load_from_existing_workload_cmd(group1, "Preload", "preload from workload.txt", {"PL", "preloading"});
   args::ValueFlag<std::string> out_filename_cmd(group1, "OP", "output path [def: 0]", {"OP", "output-path"});
@@ -926,21 +927,17 @@ int parse_arguments2(int argc, char *argv[]) {
   maximum_unique_existing_point_query_count = round(existing_point_query_count*maximum_unique_existing_point_query_proportion);
 
   
-  lambda = lambda_cmd ? args::get(lambda_cmd) : 0.5;
-  if(lambda <= 0 || lambda > 1){
-        std::cerr << "\033[0;31m ERROR:\033[0m Lambda should be set between 0 and 1" << std::endl;
-	return 1;
+  key_size = key_size_cmd ? args::get(key_size_cmd) : 8;
+  if (key_size > entry_size) {
+        std::cerr << "\033[0;31m ERROR:\033[0m Key size should be less than or equal to entry size" << std::endl;
   }
-  if(!STRING_KEY_ENABLED && (lambda > 0 && lambda < 1)){
+  if(!STRING_KEY_ENABLED){
 	key_size = sizeof(uint32_t);
-  }else if(lambda > 0 && lambda < 1){
-        key_size = lambda * entry_size;
   }
   std::cout << "key_size = " << key_size << std::endl;
 
   load_from_existing_workload = load_from_existing_workload_cmd ? true : false;
   out_filename = out_filename_cmd ? args::get(out_filename_cmd) : "";
-
 
    // distribution
    insert_dist = insert_dist_cmd ? args::get(insert_dist_cmd):0;

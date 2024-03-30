@@ -303,7 +303,7 @@ void generate_workload() {
             //swap the key with the first element after inserted ones
             global_insert_pool[index+_insert_count] = global_insert_pool[_insert_count];
             global_insert_pool[_insert_count] = key;
-            // std::cout << value << std::endl;
+            std::cout << value << std::endl;
 
             Key value = get_value(entry_size - key_size);
             if(sorted) {
@@ -314,7 +314,7 @@ void generate_workload() {
                 insert_pool.push_back(key);
             }
             global_insert_pool_set.insert(key);
-            // std::cout << "I " << key << " " << value << std::endl;
+            std::cout << "I " << key << " " << value << std::endl;
             fp << "I " << key << " " << value << std::endl;
             _insert_count++;
             _effective_ingestion_count++;

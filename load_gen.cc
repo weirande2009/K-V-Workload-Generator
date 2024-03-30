@@ -307,7 +307,7 @@ void generate_workload() {
             //swap the key with the first element after inserted ones
             global_insert_pool[index+_insert_count] = global_insert_pool[_insert_count];
             global_insert_pool[_insert_count] = key;
-            std::cout << "get_value" << std::endl;
+            std::cout << "get_value of size " << entry_size - key_size << std::endl;
             Key value = get_value(entry_size - key_size);
             std::cout << key << std::endl;
             std::cout << value << std::endl;

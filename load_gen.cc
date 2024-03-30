@@ -169,16 +169,12 @@ void generate_workload() {
         exit(0);
     }
     std::ofstream fp;
-    fp.open(file_path);
-    // if(out_filename.compare("") == 0){
-
-    //     fp.open(file_path+FILENAME);
-    // //   std::cout << "WL_GEN :: output file = " << file_path << FILENAME << std::endl;
-    // }
-    // else {
-    //     fp.open(out_filename);
-    // //   std::cout << "WL_GEN :: output file = " << file_path << out_filename << std::endl;
-    // }
+    if(file_path.compare("") == 0){
+        fp.open(FILENAME);
+    }
+    else {
+        fp.open(file_path);
+    }
 
     long _insert_count = 0;
     long _update_count = 0;

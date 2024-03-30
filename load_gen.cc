@@ -936,6 +936,7 @@ int parse_arguments2(int argc, char *argv[]) {
   }else if(lambda > 0 && lambda < 1){
         key_size = lambda * entry_size;
   }
+  std::cout << "key_size = " << key_size << std::endl;
 
   load_from_existing_workload = load_from_existing_workload_cmd ? true : false;
   out_filename = out_filename_cmd ? args::get(out_filename_cmd) : "";

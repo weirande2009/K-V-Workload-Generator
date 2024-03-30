@@ -169,15 +169,16 @@ void generate_workload() {
         exit(0);
     }
     std::ofstream fp;
-    if(out_filename.compare("") == 0){
+    fp.open(file_path);
+    // if(out_filename.compare("") == 0){
 
-        fp.open(file_path+FILENAME);
-    //   std::cout << "WL_GEN :: output file = " << file_path << FILENAME << std::endl;
-    }
-    else {
-        fp.open(out_filename);
-    //   std::cout << "WL_GEN :: output file = " << file_path << out_filename << std::endl;
-    }
+    //     fp.open(file_path+FILENAME);
+    // //   std::cout << "WL_GEN :: output file = " << file_path << FILENAME << std::endl;
+    // }
+    // else {
+    //     fp.open(out_filename);
+    // //   std::cout << "WL_GEN :: output file = " << file_path << out_filename << std::endl;
+    // }
 
     long _insert_count = 0;
     long _update_count = 0;
@@ -830,7 +831,7 @@ int parse_arguments2(int argc, char *argv[]) {
   args::Group group4(parser, "Optional switches and parameters:", args::Group::Validators::DontCare);
   args::Group group5(parser, "Optional less frequent switches and parameters:", args::Group::Validators::DontCare);
 */
-  args::ValueFlag<std::string> directory_cmd(group1, "dir", "The directory of workload.txt", {"DIR", "directory"});
+  args::ValueFlag<std::string> output_path_cmd(group1, "output_path", "The path of output workload", {"output_path"});
 
   args::ValueFlag<long> insert_cmd(group1, "I", "Number of inserts [def: 0]", {'I', "insert"});
   args::ValueFlag<long> update_cmd(group1, "U", "Number of updates [def: 0]", {'U', "update"});
@@ -900,7 +901,7 @@ int parse_arguments2(int argc, char *argv[]) {
       return 1;
   }
 
-  file_path = directory_cmd ? args::get(directory_cmd) + "/" : "";
+  file_path = output_path_cmd ? args::get(output_path_cmd) : "";
 
   insert_count = insert_cmd ? args::get(insert_cmd) : 0;
   update_count = update_cmd ? args::get(update_cmd) : 0;

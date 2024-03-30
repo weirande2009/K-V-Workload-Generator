@@ -53,7 +53,7 @@ std::string out_filename = "";
 
 const char value_alphanum[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; // "0123456789";
 
-std::vector<Key> insert_pool;
+// std::vector<Key> insert_pool;
 std::set<Key> global_insert_pool_set; 
 std::vector<Key> global_insert_pool; 
 std::set<Key> global_non_existing_key_set;
@@ -134,6 +134,7 @@ std::vector<std::string> StringSplit(const std::string& arg, char delim) {
 }
 
 void generate_workload() {
+    std::vector<Key> insert_pool;
 
     //std::cout << "Generating workload ..." << std::endl;
     long total_operation_count = insert_count + update_count + point_delete_count + range_delete_count + point_query_count + range_query_count;

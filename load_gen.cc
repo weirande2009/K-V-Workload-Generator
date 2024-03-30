@@ -303,9 +303,9 @@ void generate_workload() {
             //swap the key with the first element after inserted ones
             global_insert_pool[index+_insert_count] = global_insert_pool[_insert_count];
             global_insert_pool[_insert_count] = key;
-            std::cout << value << std::endl;
-
             Key value = get_value(entry_size - key_size);
+            std::cout << key << std::endl;
+            std::cout << value << std::endl;
             if(sorted) {
                 std::vector<Key>::iterator it = std::upper_bound(insert_pool.begin(), insert_pool.end(), key);
                 insert_pool.insert(it, key);

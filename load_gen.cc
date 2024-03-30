@@ -53,7 +53,7 @@ std::string out_filename = "";
 
 const char value_alphanum[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"; // "0123456789";
 
-// std::vector<Key> insert_pool;
+std::vector<Key> insert_pool;
 std::set<Key> global_insert_pool_set; 
 std::vector<Key> global_insert_pool; 
 std::set<Key> global_non_existing_key_set;
@@ -135,7 +135,6 @@ std::vector<std::string> StringSplit(const std::string& arg, char delim) {
 }
 
 void generate_workload() {
-    std::vector<Key> insert_pool;
 
     //std::cout << "Generating workload ..." << std::endl;
     long total_operation_count = insert_count + update_count + point_delete_count + range_delete_count + point_query_count + range_query_count;
@@ -290,13 +289,10 @@ void generate_workload() {
      if (update_count > 0) {
          updateIndexGenerator = new Generator(update_dist, 0, global_insert_pool.size() - 1, update_norm_mean_percentile*global_insert_pool.size(), update_norm_stddev*global_insert_pool.size()/scaling_ratio, update_beta_alpha, update_beta_beta, update_zipf_alpha, global_insert_pool.size(), update_global_index_mapping);
      }
-    
-    size_t insert_pool_index = insert_pool.size();
-    insert_pool.resize(insert_pool.size() + insert_count);
 
     while (_total_operation_count < total_operation_count) {
         int choice = get_choice(insert_pool.size(), insert_count, update_count, point_delete_count, range_delete_count, point_query_count, range_query_count, _insert_count, _update_count, _point_delete_count, _range_delete_count, _point_query_count, _range_query_count);
-        std::cout << "choice = " << choice << std::endl;
+        // std::cout << "choice = " << choice << std::endl;
 
         if (choice == 0)
             continue;
@@ -308,21 +304,16 @@ void generate_workload() {
             //swap the key with the first element after inserted ones
             global_insert_pool[index+_insert_count] = global_insert_pool[_insert_count];
             global_insert_pool[_insert_count] = key;
-            std::cout << "get_value of size " << entry_size - key_size << std::endl;
             Key value = get_value(entry_size - key_size);
-            std::cout << key << std::endl;
-            std::cout << value << std::endl;
             if(sorted) {
                 std::vector<Key>::iterator it = std::upper_bound(insert_pool.begin(), insert_pool.end(), key);
                 insert_pool.insert(it, key);
             }
             else {
-                std::cout << "insert_pool.size() = " << insert_pool.size() << std::endl;
-                std::cout << "insert_pool_index = " << insert_pool_index << std::endl;
-                insert_pool[insert_pool_index++] = key;
+                insert_pool.push_back(key);
             }
             global_insert_pool_set.insert(key);
-            std::cout << "I " << key << " " << value << std::endl;
+            // std::cout << "I " << key << " " << value << std::endl;
             fp << "I " << key << " " << value << std::endl;
             _insert_count++;
             _effective_ingestion_count++;

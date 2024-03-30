@@ -291,7 +291,7 @@ void generate_workload() {
 
     while (_total_operation_count < total_operation_count) {
         int choice = get_choice(insert_pool.size(), insert_count, update_count, point_delete_count, range_delete_count, point_query_count, range_query_count, _insert_count, _update_count, _point_delete_count, _range_delete_count, _point_query_count, _range_query_count);
-        // std::cout << "choice = " << choice << std::endl;
+        std::cout << "choice = " << choice << std::endl;
 
         if (choice == 0)
             continue;
@@ -625,6 +625,8 @@ void generate_workload() {
         //          showProgress(total_operation_count, _total_operation_count);
 
     }
+
+    std::cout << "Workload generation complete." << std::endl;
 
     print_workload_parameters(_insert_count, _update_count, _point_delete_count, _range_delete_count, _effective_ingestion_count);
 }

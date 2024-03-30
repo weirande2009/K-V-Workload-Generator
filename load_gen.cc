@@ -312,9 +312,9 @@ void generate_workload() {
             }
             else {
                 for (int i = 0; i < insert_pool.size(); i++) {
-                    std::cout << "insert_pool[i]" << insert_pool[i] << std::endl;
+                    std::cout << "insert_pool[i] " << insert_pool[i] << std::endl;
                 }
-                insert_pool.push_back(key);
+                insert_pool.emplace_back(key);
                 std::cout << "insert_pool.size() = " << insert_pool.size() << std::endl;
             }
             global_insert_pool_set.insert(key);

@@ -288,6 +288,9 @@ void generate_workload() {
      if (update_count > 0) {
          updateIndexGenerator = new Generator(update_dist, 0, global_insert_pool.size() - 1, update_norm_mean_percentile*global_insert_pool.size(), update_norm_stddev*global_insert_pool.size()/scaling_ratio, update_beta_alpha, update_beta_beta, update_zipf_alpha, global_insert_pool.size(), update_global_index_mapping);
      }
+    
+    size_t insert_pool_index = insert_pool.size();
+    insert_pool.resize(insert_pool.size() + insert_count);
 
     while (_total_operation_count < total_operation_count) {
         int choice = get_choice(insert_pool.size(), insert_count, update_count, point_delete_count, range_delete_count, point_query_count, range_query_count, _insert_count, _update_count, _point_delete_count, _range_delete_count, _point_query_count, _range_query_count);
@@ -314,7 +317,7 @@ void generate_workload() {
                 for (int i = 0; i < insert_pool.size(); i++) {
                     std::cout << "insert_pool[i] " << insert_pool[i] << std::endl;
                 }
-                insert_pool.emplace_back(key);
+                insert_pool[insert_pool_index++] = key;
                 std::cout << "insert_pool.size() = " << insert_pool.size() << std::endl;
             }
             global_insert_pool_set.insert(key);

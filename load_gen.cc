@@ -115,11 +115,12 @@ Key get_key(int _key_size){
 
 std::string get_value(int _value_size) {
     // std::cout << key_size << std::endl;
-    char *s = new char[(int)_value_size];
+    // char *s = new char[(int)_value_size];
+    std::string s;
+    s.resize(_value_size);
     for (int i = 0; i < _value_size; ++i) {
         s[i] = value_alphanum[rand() % (sizeof(value_alphanum) - 1)];
     }
-    s[_value_size] = '\0';
     return s;
 }
 
